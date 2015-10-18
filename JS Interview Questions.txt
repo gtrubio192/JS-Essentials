@@ -1,0 +1,194 @@
+Front End Technical Interview
+
+Q: What is a JavaScript callback function?
+A: A callback function is a piece of JavaScript code that executes after the main function that the callback is attached to executes successfully.
+
+Q: What is the child selector? ( elem1 > elem2)
+A: The > combinator separates two selectors and matches only those elements matched by the second selector that are direct children of elements matched by the first.
+
+ Q: General sibling selector? ( element ~ element { style properties } )
+A: The ~ combinator separates two selectors and matches the second element only if it is preceded by the first, and both share a common parent. aka both elements are in same level of DOM tree. 
+ 
+Q:  How would you optimize the images used on a site?
+A: By using an image sprite and also by compressing the images.
+ 
+Q:  What is a ‘sprite’ ?
+A: An image sprite is a collection of images put into a single image. A web page with many images can take a long time to load and generates multiple server requests. Using image sprites will reduce the number of server requests and save bandwidth.
+ http://www.tutorialrepublic.com/codelab.php?topic=css&file=setting-default-state-for-menu-links 
+Q:  How do you remove bullets from a ‘ul’ html element?
+A:  to remove the default bullets by setting the list-style-type attribute to "none".
+ul { list-style-type: none; }
+
+Q: Please demonstrate how you would build a web layout
+A: You can user either floats, grid layout, or flexbox.
+
+Q: Could you link your CSS and JS file to your HTML document?
+A: Yes. 
+<script src=“file/jquery.com/jquery-1.11.0.min.js”></script>
+<link href="file/bootstrap.min.css" rel="stylesheet">
+
+Q: Explain event delegation in JS?
+A: Event delegation allows you to avoid adding event listeners to specific nodes;  instead, the event listener is added to one parent.  That event listener analyzes bubbled events to find a match on child elements - and get the child from ‘e.target’. (http://davidwalsh.name/event-delegate)
+HTML:
+<ul id="parent-list">
+	<li id="post-1">Item 1</li>
+	<li id="post-2">Item 2</li>
+	<li id="post-3">Item 3</li>
+	<li id="post-4">Item 4</li>
+	<li id="post-5">Item 5</li>
+	<li id="post-6">Item 6</li>
+</ul>
+<script> document.getElementById("parent-list").addEventListener("click", function(e) {
+	// e.target is the clicked element!
+	// If it was a list item
+	if(e.target && e.target.nodeName == "LI") {
+		// List item found!  Output the ID!
+		console.log("List item ", e.target.id.replace("post-"), " was clicked!");
+	}
+});
+
+Q: Explain ‘event bubbling’? 
+A: After an event triggers on the deepest possible HTML element, it then triggers on parents in nesting order
+Q:  If we wanted to implement a method of tracking every click   that the user made on the site, how would we want to do this? 
+A: add an event listener at the document level (document.addEventListener(“click, function(e) …) the gist is that you would want to capture the events as they bubbled back up to the document level.
+
+Q: (Angular) How would you call a directive method from a controller in a isolated scope?
+A:  Use a service to expose a value and then watch in the directive for the variable change and invoke the function when value changes.
+
+Q:  What is AJAX? 
+A: Asynchronous javascript and XML
+
+Q: What are your 3 most valuable tools as a developer?
+A: IDE, Build Tools, Version Control (Git)!
+
+Q: In Javascript what's the difference between a double equal sign and a triple equal sign
+A: the triple equal requires the type to match. The double does not.
+Q: Name the different css values for positioning
+A: Static, relative, absolute, fixed.
+
+Q: What is a debounce function?
+A: It limits the rate at which a function can fire. If your web app uses JavaScript to accomplish taxing tasks, a debounce function is essential to ensuring a given task doesn't fire so often that it bricks browser performance.
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the // function on the leading edge, instead of the trailing.
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
+//  ****** Here’s an example usage:
+
+var myEfficientFn = debounce(function() {
+	// All the taxing stuff you do
+}, 250);
+window.addEventListener('resize', myEfficientFn);
+
+Q: Prototypical inheritance and its ramifications in writing OO code. The eventual goal is to note how it differs from classical inheritance to determine whether or not the two can't meet somewhere in the middle.
+A: A prototype is an internal object from which other objects inherit properties. Its main purpose is to allow multiple instances of an object to share a common property. Thus, object properties which are defined using the prototype object are inherited by all instances which reference it.
+The general rule is that you can prototype any object that's initialized with the "new" keyword, and that includes native JavaScript objects, such as Arrays, Dates, Strings, Functions, and even the generic Object itself.
+How this works becomes quite clear when you see it in action. Say you add a method to MyObject (that's the object, not the instance) called doSomething(). Would that cause new instances of MyObject to inherit the doSomething() method? No it would not. What that would do is create a static method that can be called without first instantiating the object (useful to know in itself!). Likewise, a function that is added to an instance would only apply to that particular instance. Only when the function is assigned to the MyObject.prototype is it inherited by all instances of that Object, including those we instantiated before the creation of the new function:
+MyObject.doSomething = function() {
+	alert("I do as I am told.");
+}
+var anotherObject = new MyObject();
+anotherObject.doSomething = function() {
+	alert("I do the bare minimum required of me!");
+}
+anotherObject.doSomething(); //calls the instance specific method
+MyObject.doSomething(); //calls the static Object method
+MyObject.prototype.doSomething = MyObject.doSomething; //apply the static method to all instances from here on in
+anotherObject.doSomething();  //still calls the instance method
+var yetAnotherObject = new MyObject();
+yetAnotherObject.doSomething(); //inherited doSomething() from MyObject
+A:  JavaScript is a class-less language. The Class keyword, although reserved, is not part of the language definition. JavaScript is built on Objects rather than Classes. Thus you can write myObject=new Object();
+but not
+Class MyObject {}
+as you would in Java. In traditional OOP, an object is an instance of a class, but in JavaScript, it takes on a specialized meaning because an Object acts as the definition of an object just like a class does. However, whereas a Class provides mechanisms for encapsulation and inheritance, a JavaScript Object doesn't resemble a Class all that much.
+JavaScript Objects use prototypical inheritance, which is quite different from Class inheritance. So what exactly is an Object in JavaScript? It is really just an unordered collection of key-value pairs. Anything that is not a primitive - undefined, null, boolean, number, or string - is an Object in JavaScript.
+Q:  So what exactly is an Object in JavaScript? 
+A: It is really just an unordered collection of key-value pairs. Anything that is not a primitive - undefined, null, boolean, number, or string - is an Object in JavaScript.
+
+Q:  Explain lexical scoping?
+A:  in JavaScript, the scope of a variable is defined by its location within the source code (it is apparent lexically) and nested functions have access to variables declared in their outer scope.
+function init() {
+    var name = "Mozilla"; // name is a local variable created by init
+    function displayName() { // displayName() is the inner function, a closure
+        alert (name); // displayName() uses variable declared in the parent function    
+    }
+    displayName();    
+}
+init();
+
+Q: Explain what a closure means?
+A:   A closure is a special kind of object that combines two things: a function, and the environment in which that function was created. The environment consists of any local variables that were in-scope at the time that the closure was created.
+function makeFunc() {
+  	var name = "Mozilla";
+  	function displayName() {
+    alert(name);
+  }
+  return displayName;
+};
+
+var myFunc = makeFunc();
+myFunc();
+
+Q:  What is a promise? And what states can it return?
+A: 1. At their most basic, promises are a bit like event listeners except:
+A promise can only succeed or fail once. It cannot succeed or fail twice, neither can it switch from success to failure or vice versa
+If a promise has succeeded or failed and you later add a success/failure callback, the correct callback will be called, even though the event took place earlierfulfilled The action relating to the promise succeeded rejected The action relating to the promise failed pending Hasn't fulfilled or rejected yet settled Has fulfilled or rejected
+2. fulfilled(The action relating to the promise succeeded) rejected (The action relating to the promise failed) pending (Hasn’t fulfilled or rejected yet) settled (Has fulfilled or rejected)
+
+Q:  What are some ways to improve load time for a page?
+A: Use sprite images, debounce functions, 
+Q: 
+A: 
+
+Q: 
+A: 
+
+Q: 
+A: 
+
+Q: 
+A: 
+Q: 
+A: 
+
+Q: 
+A: 
+
+Q: 
+A: 
+Q: 
+A: 
+
+Q: 
+A: 
+
+Q: 
+A: 
+Q: 
+A: 
+
+Q: 
+A: 
+
+Q: 
+A: 
+Q: 
+A: 
+
+Q: 
+A: 
+
+Q: 
+A: 
