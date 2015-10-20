@@ -1,13 +1,14 @@
+<!DOCTYPE HTML>
 <html><head></head>
 <body>
 <style>
  .d1{background-color:green;position:relative;width:150px;height:150px;text-align:center;cursor:pointer;}.d2{background-color:blue;position:absolute;top:25px;left:25px;width:100px;height:100px;}.d3{background-color:red;position:absolute;top:25px;left:25px;width:50px;height:50px;line-height:50px;}
 </style>
 <div class="d1" onclick="highlight(this)">1
-<div class="d2" onclick="highlight(this)">2
-<div class="d3" onclick="highlight(this)">3
-</div>
-</div>
+  <div class="d2" onclick="highlight(this)">2
+    <div class="d3" onclick="highlight(this)">3
+    </div>
+  </div>
 </div>
 <script>
 function highlight(elem) {

@@ -20,7 +20,7 @@ console.log(factorial(num));
 // recursive
 var factorialRec = function(n) {
     if(n == 0) {
-        return 1
+        return 1;
     } else {
         return n * factorialRec(n - 1);
     }
